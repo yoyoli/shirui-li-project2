@@ -14,6 +14,7 @@ function Grid({ rows, cols, mineCount }) {
             col: colIndex,
             isBomb: false,
             isRevealed: false,
+            isFlagged: false,
             adjacentBombs: 0,
           }))
       );
@@ -95,6 +96,15 @@ function Grid({ rows, cols, mineCount }) {
     }
   };
 
+  // handle right-click to flag a cell
+  const handleRightClick = (rowIndex, colIndex, event) => {
+    event.preventDefault();
+    const newGrid = grid.map(row => row.map(cell => ({ ...cell })));
+    const cell = newGrid[rowIndex][colIndex];
+    cell.isFlagged = !cell.isFlagged;
+    setGrid(newGrid);
+  };
+
   let cellSize;
   if (rows === 8) {
     cellSize = 40; // Easy: 40px
@@ -102,6 +112,22 @@ function Grid({ rows, cols, mineCount }) {
     cellSize = 25; // Medium: 25px
   } else {
     cellSize = 15; // Hard: 15px
+  }
+
+  function Cell({ rowIndex, colIndex, isMine, onClick, isRevealed, adjacentBombs, isFlagged, onRightClick }) {
+    return (
+      <div
+        className={`grid-cell ${isFlagged ? 'flagged' : ''} ${isRevealed ? (isMine ? 'bomb' : 'safe') : ''}`}
+        onClick={onClick}
+        onContextMenu={onRightClick}
+        style={{
+          width: `${cellSize}px`,
+          height: `${cellSize}px`,
+        }}
+      >
+        {isFlagged ? '🚩' : isRevealed && !isMine && adjacentBombs > 0 ? adjacentBombs : ''}
+      </div>
+    );
   }
 
   return (
@@ -114,17 +140,17 @@ function Grid({ rows, cols, mineCount }) {
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} className="grid-row">
           {row.map((cell, colIndex) => (
-            <div
+            <Cell
               key={`${rowIndex}-${colIndex}`}
-              className={`grid-cell ${cell.isRevealed ? (cell.isBomb ? 'bomb' : 'safe') : ''}`}
-              style={{
-                width: `${cellSize}px`,
-                height: `${cellSize}px`,
-              }}
+              rowIndex={rowIndex}
+              colIndex={colIndex}
+              isMine={cell.isBomb}
               onClick={() => handleClick(rowIndex, colIndex)}
-            >
-              {cell.isRevealed && !cell.isBomb && cell.adjacentBombs > 0 ? cell.adjacentBombs : ''}
-            </div>
+              onRightClick={(e) => handleRightClick(rowIndex, colIndex, e)}
+              isRevealed={cell.isRevealed}
+              adjacentBombs={cell.adjacentBombs}
+              isFlagged={cell.isFlagged}
+            />
           ))}
         </div>
       ))}

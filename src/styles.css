@@ -49,4 +49,8 @@
     background-color: red;
     color: white;
   }
-  
+
+.grid-cell.flagged {
+    background-color: orange;
+    color: white;
+}
