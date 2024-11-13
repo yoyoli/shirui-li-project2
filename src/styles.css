@@ -1,0 +1,43 @@
+.grid {
+    display: grid;
+    gap: 2px;
+    justify-content: center;
+    margin-top: 20px;
+}  
+  
+.grid-cell {
+    background-color: lightgray;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+  
+.grid-cell:hover {
+    background-color: darkgray;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+  
+.difficulty-levels {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+  
+.difficulty-link {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+  
+.difficulty-link:hover {
+    color: darkblue;
+}
+  
+  
+  
