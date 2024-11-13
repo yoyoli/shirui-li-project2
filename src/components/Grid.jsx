@@ -1,9 +1,9 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../styles.css';
 
 function Grid({ rows, cols, mineCount }) {
-  // create grid
-  const initializeGrid = () => {
+  // create grid with useCallback
+  const initializeGrid = useCallback(() => {
     const grid = Array(rows)
       .fill()
       .map((_, rowIndex) =>
@@ -31,7 +31,7 @@ function Grid({ rows, cols, mineCount }) {
     }
 
     return grid;
-  };
+  }, [rows, cols, mineCount]);
 
   // calculate bomb around
   const calculateAdjacentBombs = (grid) => {
@@ -71,6 +71,12 @@ function Grid({ rows, cols, mineCount }) {
     calculateAdjacentBombs(initialGrid);
     return initialGrid;
   });
+
+  useEffect(() => {
+    const newGrid = initializeGrid();
+    calculateAdjacentBombs(newGrid);
+    setGrid(newGrid);
+  }, [initializeGrid]);
 
   // handle click
   const handleClick = (rowIndex, colIndex) => {
