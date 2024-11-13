@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import '../styles.css';
 
 function Grid({ rows, cols, mineCount }) {
@@ -33,18 +33,56 @@ function Grid({ rows, cols, mineCount }) {
     return grid;
   };
 
-  const [grid, setGrid] = useState(initializeGrid());
+  // calculate bomb around
+  const calculateAdjacentBombs = (grid) => {
+    const directions = [
+      [-1, -1], [-1, 0], [-1, 1],
+      [0, -1],         [0, 1],
+      [1, -1], [1, 0], [1, 1],
+    ];
+  
+    for (let row = 0; row < grid.length; row++) {
+      for (let col = 0; col < grid[row].length; col++) {
+        if (grid[row][col].isBomb) continue;
+  
+        let bombCount = 0;
+        directions.forEach(([dRow, dCol]) => {
+          const newRow = row + dRow;
+          const newCol = col + dCol;
+  
+          if (
+            newRow >= 0 &&
+            newRow < grid.length &&
+            newCol >= 0 &&
+            newCol < grid[row].length &&
+            grid[newRow][newCol].isBomb
+          ) {
+            bombCount++;
+          }
+        });
+  
+        grid[row][col].adjacentBombs = bombCount;
+      }
+    }
+  };
+  
+  const [grid, setGrid] = useState(() => {
+    const initialGrid = initializeGrid();
+    calculateAdjacentBombs(initialGrid);
+    return initialGrid;
+  });
 
   // handle click
   const handleClick = (rowIndex, colIndex) => {
-    //const newGrid = [...grid];
     const newGrid = grid.map(row => row.map(cell => ({ ...cell })));
     const cell = newGrid[rowIndex][colIndex];
 
     if (cell.isBomb) {
       alert('BOOM! You lost!');
       // reset game
-      setGrid(initializeGrid());
+      const resetGrid = initializeGrid();
+      calculateAdjacentBombs(resetGrid);
+      setGrid(resetGrid);
     } else {
       cell.isRevealed = true;
       setGrid(newGrid);
