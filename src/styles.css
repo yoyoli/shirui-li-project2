@@ -41,3 +41,12 @@
   
   
   
+.grid-cell.safe {
+    background-color: #e0e0e0;
+  }
+  
+  .grid-cell.bomb {
+    background-color: red;
+    color: white;
+  }
+  
