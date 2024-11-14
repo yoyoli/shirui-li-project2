@@ -82,15 +82,18 @@ function Grid({ rows, cols, mineCount }) {
 
   // handle click
   const handleClick = (rowIndex, colIndex) => {
-    const newGrid = grid.map(row => row.map(cell => ({ ...cell })));
+    const newGrid = grid.map((row) => row.map((cell) => ({ ...cell })));
     const cell = newGrid[rowIndex][colIndex];
 
     if (cell.isBomb) {
-      alert('BOOM! You lost!');
-      // reset game
-      const resetGrid = initializeGrid();
-      calculateAdjacentBombs(resetGrid);
-      setGrid(resetGrid);
+      cell.isRevealed = true;
+      setGrid(newGrid);
+      setTimeout(() => {
+        alert('BOOM! You lost!');
+        const resetGrid = initializeGrid();
+        calculateAdjacentBombs(resetGrid);
+        setGrid(resetGrid);
+      }, 100);
     } else {
       cell.isRevealed = true;
       setGrid(newGrid);
