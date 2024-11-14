@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles.css';
+import Cell from './Cell';
 
 function Grid({ rows, cols, mineCount }) {
   // create grid with useCallback
@@ -121,7 +122,6 @@ function Grid({ rows, cols, mineCount }) {
 
     if (allBombsFlagged || allSafeCellsRevealed) {
       alert('Congratulations! You won!');
-      // Optionally reset the game or handle the win scenario
     }
   };
 
@@ -132,22 +132,6 @@ function Grid({ rows, cols, mineCount }) {
     cellSize = 25; // Medium: 25px
   } else {
     cellSize = 15; // Hard: 15px
-  }
-
-  function Cell({ rowIndex, colIndex, isMine, onClick, isRevealed, adjacentBombs, isFlagged, onRightClick }) {
-    return (
-      <div
-        className={`grid-cell ${isFlagged ? 'flagged' : ''} ${isRevealed ? (isMine ? 'bomb' : 'safe') : ''}`}
-        onClick={onClick}
-        onContextMenu={onRightClick}
-        style={{
-          width: `${cellSize}px`,
-          height: `${cellSize}px`,
-        }}
-      >
-        {isFlagged ? '🚩' : isRevealed && !isMine && adjacentBombs > 0 ? adjacentBombs : ''}
-      </div>
-    );
   }
 
   return (
@@ -170,6 +154,7 @@ function Grid({ rows, cols, mineCount }) {
               isRevealed={cell.isRevealed}
               adjacentBombs={cell.adjacentBombs}
               isFlagged={cell.isFlagged}
+              cellSize={cellSize}
             />
           ))}
         </div>

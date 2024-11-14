@@ -1,3 +1,32 @@
+.welcome-title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.back-home {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+.back-link {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+}
+  
+.back-link:hover {
+    background-color: #f0f0f0;
+}
+  
+
 .grid {
     display: grid;
     gap: 2px;
@@ -22,6 +51,11 @@
     text-align: center;
     margin-bottom: 20px;
 }
+
+.difficulty-selector {
+    text-align: center;
+    margin-bottom: 20px;
+}
   
 .difficulty-levels {
     display: flex;
@@ -31,8 +65,11 @@
   
 .difficulty-link {
     text-decoration: none;
-    color: blue;
-    font-weight: bold;
+    color: #333;
+    padding: 8px 16px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    transition: all 0.3s;
 }
   
 .difficulty-link:hover {
