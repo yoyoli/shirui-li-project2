@@ -93,6 +93,7 @@ function Grid({ rows, cols, mineCount }) {
     } else {
       cell.isRevealed = true;
       setGrid(newGrid);
+      checkWinCondition(newGrid);
     }
   };
 
@@ -101,8 +102,27 @@ function Grid({ rows, cols, mineCount }) {
     event.preventDefault();
     const newGrid = grid.map(row => row.map(cell => ({ ...cell })));
     const cell = newGrid[rowIndex][colIndex];
-    cell.isFlagged = !cell.isFlagged;
-    setGrid(newGrid);
+    if (!cell.isRevealed) {
+      cell.isFlagged = !cell.isFlagged;
+      setGrid(newGrid);
+      checkWinCondition(newGrid);
+    }
+  };
+
+  // check win condition
+  const checkWinCondition = (grid) => {
+    const allBombsFlagged = grid.every(row =>
+      row.every(cell => (cell.isBomb && cell.isFlagged) || (!cell.isBomb && !cell.isFlagged))
+    );
+
+    const allSafeCellsRevealed = grid.every(row =>
+      row.every(cell => (!cell.isBomb && cell.isRevealed) || cell.isBomb)
+    );
+
+    if (allBombsFlagged || allSafeCellsRevealed) {
+      alert('Congratulations! You won!');
+      // Optionally reset the game or handle the win scenario
+    }
   };
 
   let cellSize;
