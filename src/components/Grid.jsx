@@ -89,7 +89,7 @@ function Grid({ rows, cols, mineCount }) {
       cell.isRevealed = true;
       setGrid(newGrid);
       setTimeout(() => {
-        alert('BOOM! You lost!');
+        alert('Game Over! You lost!');
         const resetGrid = initializeGrid();
         calculateAdjacentBombs(resetGrid);
         setGrid(resetGrid);
@@ -124,7 +124,7 @@ function Grid({ rows, cols, mineCount }) {
     );
 
     if (allBombsFlagged || allSafeCellsRevealed) {
-      alert('Congratulations! You won!');
+      alert('Game over! You won!');
     }
   };
 

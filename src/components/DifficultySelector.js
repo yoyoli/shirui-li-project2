@@ -15,6 +15,12 @@ function DifficultySelector() {
         <Link to="/game/easy" className="difficulty-link">Easy</Link>
         <Link to="/game/medium" className="difficulty-link">Medium</Link>
         <Link to="/game/hard" className="difficulty-link">Hard</Link>
+        <button
+          onClick={() => window.location.reload()}
+          className="difficulty-link"
+        >
+          Reset
+        </button>
       </div>
     </div>
 
